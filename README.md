@@ -1,4 +1,4 @@
-# scraper-audit-expert — Claude Code Agent Skill
+# scraper-audit-expert - Claude Code Agent Skill
 
 An Agent Skill **for Claude** (Claude Code / claude.ai). **Target LLM: Claude.**
 

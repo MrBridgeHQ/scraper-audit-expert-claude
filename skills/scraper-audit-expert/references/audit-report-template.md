@@ -4,14 +4,14 @@ Fillable template for the audit deliverable.
 
 **Length discipline:** 8–15 pages total. Cut to top 20 findings; appendix the rest.
 
-**Storage:** the audit report is **internal documentation** (it mentions findings, impact estimates, and business context). It MUST NOT live inside an Actor's git repository that gets `apify push`-ed, because `apify push` uploads the whole repo and the public API exposes `versions[0].sourceFiles[]`. Store it outside the Actor's source tree — e.g. a separate private repo or a private docs folder.
+**Storage:** the audit report is **internal documentation** (it mentions findings, impact estimates, and business context). It MUST NOT live inside an Actor's git repository that gets `apify push`-ed, because `apify push` uploads the whole repo and the public API exposes `versions[0].sourceFiles[]`. Store it outside the Actor's source tree - e.g. a separate private repo or a private docs folder.
 
 ---
 
 ## Template
 
 ```markdown
-# Scraper Audit — <Project name>
+# Scraper Audit - <Project name>
 
 **Date:** <YYYY-MM-DD>
 **Auditor:** <Claude with skill `scraper-audit-expert`>
@@ -48,7 +48,7 @@ Fillable template for the audit deliverable.
 **What was NOT looked at:**
 - <e.g. "Frontend code (out of audit scope)">
 - <e.g. "An upstream API client (separate audit)">
-- <e.g. "Tests directory — limited to verifying fixture coverage, not test logic">
+- <e.g. "Tests directory - limited to verifying fixture coverage, not test logic">
 
 **Sample size justification:** <state confidence interval where relevant>. Example: "N=200 randomly-sampled records, accuracy claims have ±7% confidence at 95%."
 
@@ -56,7 +56,7 @@ Fillable template for the audit deliverable.
 
 ---
 
-## Snapshot — scrapers in scope
+## Snapshot - scrapers in scope
 
 **Multi-target audit note:** if auditing >1 scraper in the same engagement, produce **one unified report** with both Snapshot subsections below populated. Findings are still numbered globally (C1, C2, ...) but each finding's header includes the affected scraper(s): `[SEV-N][Effort][category] (Scraper A) Title` or `(both)` for cross-cutting findings. Methodology + scorecard sections collapse to a single instance; only Snapshot tables and finding blocks branch by scraper.
 
@@ -84,17 +84,17 @@ Fillable template for the audit deliverable.
 | 2. Quality | <N>/5 | <e.g. "Null rate <2% on critical fields. Currency normalization fails on GBP at 12%."> |
 | 3. Consistency | <N>/5 | <e.g. "Cross-run stability OK. Schema drift detected on `availability` enum starting week of 2026-04-15."> |
 | 4. Resilience | <N>/5 | <e.g. "Single-selector fields on price extraction. `Actor.fail` called for business errors."> |
-| 5. Performance & cost | <N>/5 | <e.g. "Cost-per-record $0.0004, well under PPE $0.005 — healthy margin. Cache hit rate 32%, low."> |
+| 5. Performance & cost | <N>/5 | <e.g. "Cost-per-record $0.0004, well under PPE $0.005 - healthy margin. Cache hit rate 32%, low."> |
 | 6. Observability | <N>/5 | <e.g. "Structured logs ✓. No alerting on success-rate drops."> |
 | 7. Architecture | <N>/5 | <e.g. "Clean separation, fixtures present, 18 test files. 4 `as any` casts to address."> |
 | 8. Monetization | Delegated | See <path to PPE/pricing audit dated YYYY-MM-DD> |
 
 **Scoring scale (general):**
-- 5/5 — best-in-portfolio, no actionable findings
-- 4/5 — healthy with minor optimizations
-- 3/5 — functional but real findings exist
-- 2/5 — material issues affecting users or revenue
-- 1/5 — critical failures or fundamental gaps
+- 5/5 - best-in-portfolio, no actionable findings
+- 4/5 - healthy with minor optimizations
+- 3/5 - functional but real findings exist
+- 2/5 - material issues affecting users or revenue
+- 1/5 - critical failures or fundamental gaps
 
 **Per-dimension scoring exemplars** (use to calibrate):
 
@@ -107,13 +107,13 @@ Fillable template for the audit deliverable.
 | 5. Perf & Cost | Cost/record well under PPE price, cache hit ≥80%, memory plateau healthy | Cache hit 40–60%, memory tier slightly oversized | Cost/record > event price, cache hit <20%, sequential where parallel safe |
 | 6. Observability | Structured logs, full metric set, alerting on success rate + cost, runbooks | Logs only, no alerting, metric gaps | Free-form logs, no error records, blind on cost |
 | 7. Architecture | Pure extractors, fixtures present, 0 `as any`, secrets clean | Some `as any`, partial fixture coverage, occasional doc drift | Secrets in repo, no tests, monolithic single-file scraper |
-| 8. Monetization | (Delegated — see the PPE/pricing audit) | (Delegated) | (Delegated) |
+| 8. Monetization | (Delegated - see the PPE/pricing audit) | (Delegated) | (Delegated) |
 
 ---
 
 ## Findings 🔴 Critical
 
-### C1 — <Title>
+### C1 - <Title>
 
 **[SEV-N][Effort][category]**
 
@@ -135,17 +135,17 @@ Fillable template for the audit deliverable.
 
 > Cross-ref: <doctrine reference> § "<section>"
 
-**Confidence:** <High / Medium / Low — based on data quality used to compute impact>
+**Confidence:** <High / Medium / Low - based on data quality used to compute impact>
 
 ---
 
-### C2 — <Title>
+### C2 - <Title>
 
 <same structure>
 
 ---
 
-### C3 — <Title>
+### C3 - <Title>
 
 <same structure>
 
@@ -153,7 +153,7 @@ Fillable template for the audit deliverable.
 
 ## Findings 🟡 Important
 
-### I1 — <Title>
+### I1 - <Title>
 
 **[SEV-3][Effort][category]**
 
@@ -165,7 +165,7 @@ Fillable template for the audit deliverable.
 
 ---
 
-### I2 — <Title>
+### I2 - <Title>
 
 <same structure, condensed>
 
@@ -175,50 +175,50 @@ Fillable template for the audit deliverable.
 
 Bullet list, no separate sections:
 
-- N1 — [SEV-1][S][arch] <Title> — <one line>. Fix: <one line>.
-- N2 — [SEV-2][S][obs] <Title> — <one line>. Fix: <one line>.
+- N1 - [SEV-1][S][arch] <Title> - <one line>. Fix: <one line>.
+- N2 - [SEV-2][S][obs] <Title> - <one line>. Fix: <one line>.
 - ...
 
 ---
 
-## Quick wins — "Fix this week"
+## Quick wins - "Fix this week"
 
 Sorted by severity / effort (SEV-3+, effort S only).
 
 | Finding | Effort | Impact | Cross-ref |
 |---|---|---|---|
-| C1 — <Title> | S | <quick impact statement> | <doctrine ref> |
-| I1 — <Title> | S | <quick impact statement> | <doctrine ref> |
+| C1 - <Title> | S | <quick impact statement> | <doctrine ref> |
+| I1 - <Title> | S | <quick impact statement> | <doctrine ref> |
 | ... | | | |
 
 ---
 
-## Strategic recommendations — "Fix this quarter"
+## Strategic recommendations - "Fix this quarter"
 
 Sorted by severity (SEV-4+, effort M/L).
 
 | Finding | Effort | Impact | Cross-ref |
 |---|---|---|---|
-| C3 — <Title> | M | <quick impact statement> | <doctrine ref> |
+| C3 - <Title> | M | <quick impact statement> | <doctrine ref> |
 | ... | | | |
 
 ---
 
 ## Open questions / Needs more data
 
-Findings where impact could not be quantified from available data, OR where the audit lacks evidence to conclude. **This section is non-negotiable — never skip.**
+Findings where impact could not be quantified from available data, OR where the audit lacks evidence to conclude. **This section is non-negotiable - never skip.**
 
-- Q1 — <Question>. To resolve: <what data / access would unblock>. Example: "Cache hit rate not measurable — no `redis-cli INFO stats` access during audit window. Resolution: instrument or grant access."
-- Q2 — <Question>. To resolve: <...>.
+- Q1 - <Question>. To resolve: <what data / access would unblock>. Example: "Cache hit rate not measurable - no `redis-cli INFO stats` access during audit window. Resolution: instrument or grant access."
+- Q2 - <Question>. To resolve: <...>.
 - ...
 
 ---
 
 ## Sequencing the fixes
 
-**Apify 14-day constraint:** <if applicable — list which fixes require a 14-day delay; sequence one delayed change per Actor per month>.
+**Apify 14-day constraint:** <if applicable - list which fixes require a 14-day delay; sequence one delayed change per Actor per month>.
 
-**Dependency constraint:** <if applicable — list which fixes must precede others. Example: "Add observability for cache hit rate (I4) BEFORE optimizing cache TTL (S2)">.
+**Dependency constraint:** <if applicable - list which fixes must precede others. Example: "Add observability for cache hit rate (I4) BEFORE optimizing cache TTL (S2)">.
 
 Proposed sequence:
 
@@ -233,7 +233,7 @@ Proposed sequence:
 
 ## Appendix
 
-### A.1 — Raw queries used
+### A.1 - Raw queries used
 
 ```sql
 -- Q1 (null rate per field)
@@ -245,7 +245,7 @@ FROM scraped_records WHERE created_at > NOW() - INTERVAL '7 days';
 SELECT DATE_TRUNC('week', created_at) AS week, ...
 ```
 
-### A.2 — Sample bad records
+### A.2 - Sample bad records
 
 ```json
 [
@@ -254,7 +254,7 @@ SELECT DATE_TRUNC('week', created_at) AS week, ...
 ]
 ```
 
-### A.3 — Full null-rate table (all fields)
+### A.3 - Full null-rate table (all fields)
 
 | Field | pct_null |
 |---|---|
@@ -262,7 +262,7 @@ SELECT DATE_TRUNC('week', created_at) AS week, ...
 | price | 12.3% |
 | ... | ... |
 
-### A.4 — Coverage probe — JSON-LD fields found vs. extracted
+### A.4 - Coverage probe - JSON-LD fields found vs. extracted
 
 | JSON-LD field | Present on source | Extracted to record |
 |---|---|---|
@@ -282,7 +282,7 @@ SELECT DATE_TRUNC('week', created_at) AS week, ...
 ### Tone
 
 - **Direct, technical, no hedging on facts.** "Field X is null on 12% of records."
-- **Explicit hedging on inferences.** "This *likely* costs ~$Y/month — Inferred."
+- **Explicit hedging on inferences.** "This *likely* costs ~$Y/month - Inferred."
 - **No blame language.** Findings are about the system, not engineers.
 
 ### Length
@@ -329,12 +329,12 @@ For storage: keep it **outside** the Actor's own git repo if that repo is pushed
 
 ---
 
-## Worked example — one full finding block
+## Worked example - one full finding block
 
 This is what a complete 🔴 Critical finding looks like end-to-end. Use it to calibrate the level of detail expected.
 
 ```markdown
-### C2 — Currency parsing fails for GBP listings — silent quality leak
+### C2 - Currency parsing fails for GBP listings - silent quality leak
 
 **[SEV-4][S][quality]** (Scraper B)
 
@@ -348,18 +348,18 @@ Sample bad record (from Postgres):
 
 **Impact:**
 - Query: `SELECT 100.0 * COUNT(*) FILTER (WHERE currency IS NULL AND country_code = 'GB') / COUNT(*) FILTER (WHERE country_code = 'GB') AS pct FROM scraped_records WHERE created_at > NOW() - INTERVAL '30 days';` → **12.3%** of UK records (1,847 of 15,012 over 30 days)
-- Downstream: frontend displays the product without currency, defaulting to EUR rendering — users see prices that look 1.2× too high (GBP→EUR rate)
+- Downstream: frontend displays the product without currency, defaulting to EUR rendering - users see prices that look 1.2× too high (GBP→EUR rate)
 - Confirmed via 2 user-reported tickets in the project's issue tracker (2026-04)
 
 **Fix direction:**
 In the detail-page parser, detect currency from the price text before stripping. Add a `£|€|\$` capture group ahead of the numeric regex, map symbol → ISO 4217 code (an existing country-code → currency map can be reused as a fallback). Cross-ref your selector-strategy doctrine § "Normalization" for the canonical pattern. Estimated effort: 1–2 hours including a unit test on a GBP fixture.
 
-**Confidence:** High — query result is exact, sample matched 5/5 manual checks against live source pages.
+**Confidence:** High - query result is exact, sample matched 5/5 manual checks against live source pages.
 ```
 
 ---
 
-## Quantification discipline — before/after
+## Quantification discipline - before/after
 
 The most common audit mistake (per `SKILL.md` § "Common auditor mistakes" row 1) is reporting findings without quantified impact. Compare:
 
@@ -377,8 +377,8 @@ The difference is the difference between a hot take and a billable finding. **Ev
 
 When the audit surfaces a PPE/monetization issue, the operational reality is:
 
-1. **In this skill's report**: write a **stub finding block** with `[SEV-N][Effort][monetization]` header, the Diagnostic from this audit, and a **one-line Impact** + Fix that says `Delegated to a PPE/pricing audit dated <YYYY-MM-DD> for the full Diagnostic/Impact/Fix block — see <path>`. Do not re-derive the PPE-correct charging pattern here.
+1. **In this skill's report**: write a **stub finding block** with `[SEV-N][Effort][monetization]` header, the Diagnostic from this audit, and a **one-line Impact** + Fix that says `Delegated to a PPE/pricing audit dated <YYYY-MM-DD> for the full Diagnostic/Impact/Fix block - see <path>`. Do not re-derive the PPE-correct charging pattern here.
 2. **Run a dedicated PPE/pricing audit separately** if not already done in the past 30 days. Its multi-dimension audit covers the deep PPE doctrine.
-3. **In the Sequencing section**, reference both reports — the 14-day rule and one-change-per-month constraint applies to whichever recommendations land first.
+3. **In the Sequencing section**, reference both reports - the 14-day rule and one-change-per-month constraint applies to whichever recommendations land first.
 
 Some findings DOUBLE-TAG: `[SEV-5][resilience+monetization]` is correct when, e.g., `Actor.fail()` for business errors AND that path also fires `Actor.charge()` (refund magnet). Treat as one finding here with both category tags; cross-ref both doctrines.

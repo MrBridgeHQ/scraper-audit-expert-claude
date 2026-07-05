@@ -1,4 +1,4 @@
-# Coverage Methodology — Five-Step Systematic Process
+# Coverage Methodology - Five-Step Systematic Process
 
 The hardest audit dimension. Most auditors only review what the scraper EXTRACTS; this methodology systematically identifies what the scraper COULD extract but isn't.
 
@@ -13,7 +13,7 @@ This file is the canonical procedure for Dimension 1 in `audit-framework.md`.
 
 ## The five steps
 
-### Step 1 — Build a source field inventory (manual)
+### Step 1 - Build a source field inventory (manual)
 
 Pick 10–20 representative target pages:
 - 5 popular records (top-selling products, top-rated restaurants, etc.)
@@ -25,10 +25,10 @@ For each page:
 
 ```
 [1] Open in browser
-[2] View Source (Ctrl+U) — capture <script type="application/ld+json"> and microdata
-[3] Inspect Element — capture itemprop attributes, data-* attributes
-[4] DevTools Network panel filtered to XHR/Fetch — capture any /api/... JSON responses
-[5] Disable JavaScript and reload — see what's server-rendered vs. client-injected
+[2] View Source (Ctrl+U) - capture <script type="application/ld+json"> and microdata
+[3] Inspect Element - capture itemprop attributes, data-* attributes
+[4] DevTools Network panel filtered to XHR/Fetch - capture any /api/... JSON responses
+[5] Disable JavaScript and reload - see what's server-rendered vs. client-injected
 ```
 
 Build a spreadsheet:
@@ -45,9 +45,9 @@ Build a spreadsheet:
 
 **Critical:** include fields you find in JSON-LD, even if they're not visible. Schema.org `Product`, `Offer`, `Organization`, `Review` are the common heavy-data sources.
 
-**Persist this spreadsheet as Appendix A.4 in the audit report** (per `audit-report-template.md` § Appendix A.4 — "Coverage probe — JSON-LD fields found vs. extracted"). It becomes the auditable evidence for every coverage finding.
+**Persist this spreadsheet as Appendix A.4 in the audit report** (per `audit-report-template.md` § Appendix A.4 - "Coverage probe - JSON-LD fields found vs. extracted"). It becomes the auditable evidence for every coverage finding.
 
-### Step 2 — Hidden-API probe
+### Step 2 - Hidden-API probe
 
 Open DevTools Network panel:
 1. Filter to **XHR/Fetch** only
@@ -60,7 +60,7 @@ Common patterns:
 | Site type | Hidden API pattern | What it typically exposes |
 |---|---|---|
 | E-commerce SPA | `/api/products/<id>`, `/_next/data/...` | Full product object with seller info, related products, inventory |
-| GraphQL | `/graphql` | The frontend's actual query — often has fields not displayed |
+| GraphQL | `/graphql` | The frontend's actual query - often has fields not displayed |
 | Embedded data | `<script>window.__INITIAL_STATE__ = {...}</script>` | Full hydration state |
 | Search SPA | `/api/search?q=...` | Paginated results with fields the listing UI hides |
 
@@ -68,7 +68,7 @@ Common patterns:
 
 Document any hidden API found in the audit as `[coverage] Hidden JSON endpoint at <url> exposes <N> additional fields including <list>; current scraper reads HTML instead.`
 
-### Step 3 — Managed-API raw diff *(applies when a managed API like ZenRows / Firecrawl / ScrapFly is in the pipeline)*
+### Step 3 - Managed-API raw diff *(applies when a managed API like ZenRows / Firecrawl / ScrapFly is in the pipeline)*
 
 When the scraper uses a managed API (e.g. one provider for an anti-bot-protected source), the API returns more than what gets persisted. Check both:
 
@@ -102,7 +102,7 @@ writeFileSync(`audit-parsed/${slugify(url)}.json`, JSON.stringify(parsed, null, 
 
 Then offline: for each raw file, grep for schema.org `itemprop` attributes and JSON-LD; compare against parsed output keys.
 
-### Step 4 — Schema.org probe (fast)
+### Step 4 - Schema.org probe (fast)
 
 For HTML-based scrapers, every `itemprop` is a candidate field. Run this on a single representative fixture:
 
@@ -117,11 +117,11 @@ grep -oE 'itemtype="[^"]+"' tests/fixtures/target-page.html | sort -u
 grep -oP '(?s)<script type="application/ld\+json">\K[^<]+(?=</script>)' tests/fixtures/target-page.html | jq .
 ```
 
-Compare against `src/extractors/*.ts` — for each `itemprop` not consumed, the field is a coverage gap.
+Compare against `src/extractors/*.ts` - for each `itemprop` not consumed, the field is a coverage gap.
 
-**Bonus:** check `itemref` attributes for cross-element references — these surface when a single entity has properties scattered across the DOM, easy to miss.
+**Bonus:** check `itemref` attributes for cross-element references - these surface when a single entity has properties scattered across the DOM, easy to miss.
 
-### Step 5 — Long-tail probe (find edge-case gaps)
+### Step 5 - Long-tail probe (find edge-case gaps)
 
 Coverage often works for popular records and breaks on edges. Specifically test:
 
@@ -150,7 +150,7 @@ Severity based on **value of the field × % of records where extractable but not
 
 | Severity | Pattern |
 |---|---|
-| **🔴 SEV-5** | Critical business field (price, availability) missing — frontend / billing affected |
+| **🔴 SEV-5** | Critical business field (price, availability) missing - frontend / billing affected |
 | **🔴 SEV-4** | Routinely-displayed field missing on >10% of records |
 | **🟡 SEV-3** | Field has measurable value (drives search ranking, segmentation) but not currently surfaced |
 | **🟡 SEV-2** | Long-tail entity type not extracted (reviews, related products, multi-merchant) |
@@ -171,7 +171,7 @@ Severity based on **value of the field × % of records where extractable but not
 
 **Source evidence:** <fixture file path or live URL>, <selector or JSON path>
   Example: `tests/fixtures/product-detail.html` line 142 has
-  `<meta itemprop="aggregateRating" content="4.5">` — currently dropped.
+  `<meta itemprop="aggregateRating" content="4.5">` - currently dropped.
 
 **Persisted record evidence:** <sample record from dataset/Postgres>
   Example: `rating` field is absent in the schema; query
@@ -181,7 +181,7 @@ Severity based on **value of the field × % of records where extractable but not
   Example: 78% of product detail pages expose ratings (16/20 sampled).
   Frontend would display this; currently shows "—".
 
-**Fix direction:** <high-level — cross-ref the build doctrine for deep recipes>
+**Fix direction:** <high-level - cross-ref the build doctrine for deep recipes>
   Add `aggregateRating` extraction to the detail parser. Update the
   product type + `dataset_schema.json`. Per your selector-strategy doctrine
   § "Schema.org markup", prefer `[itemprop]` selectors with fallback to a
@@ -194,10 +194,10 @@ If you ran steps 1–5 and found no gaps:
 - Score Dim 1 = **5/5**
 - Note in the report: "Coverage audit found no gaps. The scraper extracts all fields present in JSON-LD, microdata, and the rendered DOM across N=20 sample pages. Long-tail edge cases (out-of-stock, product variants, non-USD currencies) handled correctly."
 
-This is rare. If you find no gaps in your first audit, recheck step 2 (hidden-API probe) and step 5 (long-tail probe) — those are usually where gaps hide.
+This is rare. If you find no gaps in your first audit, recheck step 2 (hidden-API probe) and step 5 (long-tail probe) - those are usually where gaps hide.
 
 ## What this file does NOT cover
 
-- **Pagination depth** is covered in `audit-framework.md` Dim 1 directly (not its own methodology — just "does it traverse all pages?").
+- **Pagination depth** is covered in `audit-framework.md` Dim 1 directly (not its own methodology - just "does it traverse all pages?").
 - **Field accuracy** (extracted value ≠ source) is Dim 2 (Quality), not Coverage.
 - **Schema drift detection** (a field that USED to be extracted but stopped) is Dim 3 (Consistency).

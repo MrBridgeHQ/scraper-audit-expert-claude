@@ -1,4 +1,4 @@
-# Quality and Consistency Tests — Concrete Queries
+# Quality and Consistency Tests - Concrete Queries
 
 This file gives the **concrete tests** for Dimensions 2 (Quality) and 3 (Consistency) of `audit-framework.md`. Each test:
 - Has a **runnable query** (jq, SQL, bash)
@@ -11,7 +11,7 @@ Use these during Phase 2 of the audit. Branches on runtime (Apify dataset vs. Po
 
 ## Quality tests
 
-### Q1 — Per-field null rate
+### Q1 - Per-field null rate
 
 **Question:** What % of records are missing each field?
 
@@ -59,7 +59,7 @@ ORDER BY pct_null_price DESC;
   Fix: cross-ref your selector-strategy doctrine § "Layered fallbacks"
 ```
 
-### Q2 — Schema conformance
+### Q2 - Schema conformance
 
 **Question:** Do all records validate against the declared schema?
 
@@ -97,7 +97,7 @@ console.log(invalid.slice(0, 5).map((r) => ProductSchema.safeParse(r).error.erro
   Fix: cross-ref a Crawlee-template reference § "Defensive extraction"
 ```
 
-### Q3 — Accuracy sample (manual, but structured)
+### Q3 - Accuracy sample (manual, but structured)
 
 **Question:** Does the extracted value match the live source?
 
@@ -125,7 +125,7 @@ console.log(invalid.slice(0, 5).map((r) => ProductSchema.safeParse(r).error.erro
   Fix: cross-ref your selector-strategy doctrine § "Normalization"
 ```
 
-### Q4 — Normalization audit
+### Q4 - Normalization audit
 
 **Question:** Are fields normalized to a canonical form?
 
@@ -157,7 +157,7 @@ SELECT scraped_at, pg_typeof(scraped_at) FROM scraped_records LIMIT 10;
 
 ```sql
 SELECT COUNT(*) FILTER (WHERE image_url LIKE '/%' OR image_url LIKE '//%') AS relative_urls FROM scraped_records;
--- Expected 0 — all URLs should be absolute (https://...)
+-- Expected 0 - all URLs should be absolute (https://...)
 ```
 
 **String trimming:**
@@ -180,11 +180,11 @@ SELECT COUNT(*) FILTER (WHERE name LIKE '%&amp;%' OR name LIKE '%&quot;%' OR nam
 ```
 [SEV-3][S][quality] Normalization issue: <type>
   Evidence: <query output>
-  Impact: <downstream effect — search broken? sorting wrong? frontend rendering bad?>
+  Impact: <downstream effect - search broken? sorting wrong? frontend rendering bad?>
   Fix: add normalization step in extractor; cross-ref a Crawlee-template reference § `src/extractors/productCard.ts`
 ```
 
-### Q5 — PII / safety leak check
+### Q5 - PII / safety leak check
 
 **Question:** Are any records leaking auth tokens, session IDs, or user PII?
 
@@ -205,7 +205,7 @@ LIMIT 20;
 
 **Finding template (Q5 fail):** 🔴 SEV-5 always. Stop the scraper, redact, then deploy fix.
 
-### Q6 — Junk record detection
+### Q6 - Junk record detection
 
 **Question:** Are error pages / captchas / empty objects being persisted as valid records?
 
@@ -234,12 +234,12 @@ LIMIT 20;
 
 ## Consistency tests
 
-### C1 — Cross-run stability
+### C1 - Cross-run stability
 
 **Question:** Same URL scraped twice = same data?
 
 **Procedure:**
-1. Pick 20 stable URLs (products unlikely to change in 24h — popular catalog items, established merchants)
+1. Pick 20 stable URLs (products unlikely to change in 24h - popular catalog items, established merchants)
 2. Scrape them today; persist with `audit_run = 1`
 3. Scrape them again in 24h; persist with `audit_run = 2`
 4. Diff per field
@@ -270,13 +270,13 @@ FROM paired;
 **Finding template (C1 fail):**
 ```
 [SEV-4][S][consistency] `<field>` changes between runs at X% rate (expected 0%)
-  Sample diffs: <3 examples — same URL, different value>
+  Sample diffs: <3 examples - same URL, different value>
   Likely cause: <selector returns one of multiple matching elements, ordering nondeterministic>
   Fix: cross-ref your selector-strategy doctrine § "Layered fallbacks"
-        — use `.first()`, anchor on stable element, normalize before persistence
+        - use `.first()`, anchor on stable element, normalize before persistence
 ```
 
-### C2 — Dedup correctness
+### C2 - Dedup correctness
 
 **Question:** Same record persisted multiple times?
 
@@ -308,7 +308,7 @@ LIMIT 50;
   Fix: add unique constraint with normalized columns; cross-ref a Crawlee-template reference
 ```
 
-### C3 — Schema drift over time
+### C3 - Schema drift over time
 
 **Question:** Has a field's null rate / type / value distribution shifted?
 
@@ -363,7 +363,7 @@ GROUP BY 1 ORDER BY 1;
   Action: confirm via fixture comparison; restore selector with fallback; backfill if data is recoverable
 ```
 
-### C4 — Cross-page consistency
+### C4 - Cross-page consistency
 
 **Question:** When the same entity appears on multiple page types, do extracted values agree?
 
@@ -397,7 +397,7 @@ FROM paired;
   Action: pick one as canonical (usually detail), document; OR enrich category records from detail
 ```
 
-### C5 — Cross-source agreement *(when multiple sources scrape similar data)*
+### C5 - Cross-source agreement *(when multiple sources scrape similar data)*
 
 **Question:** Does source A's price ≈ source B's price for the same item?
 
@@ -438,4 +438,4 @@ FROM paired;
 3. Failures become candidate findings with the template above.
 4. Cross-reference the fix-doctrine reference (links provided per finding).
 
-Don't run all tests on every audit — pick the ones most likely to surface bugs given the scraper's known issues. Q1, Q2, C2, C3 are the highest-ROI defaults.
+Don't run all tests on every audit - pick the ones most likely to surface bugs given the scraper's known issues. Q1, Q2, C2, C3 are the highest-ROI defaults.

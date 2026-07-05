@@ -1,4 +1,4 @@
-# Installation — Scraper Audit Expert skill
+# Installation - Scraper Audit Expert skill
 
 This skill is designed to be installed at the **user level** in Claude Code, so it's available across all your projects without copying it into each repo.
 
@@ -59,7 +59,7 @@ You should see `scraper-audit-expert` in the list. If not, check that the SKILL.
 
 In any directory (Claude Code session), ask:
 
-> "Audit this scraper — is it extracting all the available data, and what's the data quality?"
+> "Audit this scraper - is it extracting all the available data, and what's the data quality?"
 
 The skill should activate, walk the 5-phase workflow (gather artifacts → walk the 8 dimensions → quantify findings → sequence fixes → deliver the report), and produce a structured, severity-classified audit report.
 
@@ -89,4 +89,4 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills\scraper-audit-exper
 The skill's auto-activation depends on the description in `SKILL.md`'s frontmatter. Triggers include: "audit this scraper", "review my scraper", "what's wrong with X", "is this scraper extracting all available data", "find bugs in scraper", "why does scraper Y fail". If your phrasing doesn't match, force activation: "Use the `scraper-audit-expert` skill to..."
 
 **The audit commands reference tools I don't have.**
-The skill's commands (`apify`, `jq`, `psql`, `redis-cli`) are illustrative — install only the ones relevant to your runtime. The framework itself is tool-agnostic; the skill notes workarounds when a tool is missing.
+The skill's commands (`apify`, `jq`, `psql`, `redis-cli`) are illustrative - install only the ones relevant to your runtime. The framework itself is tool-agnostic; the skill notes workarounds when a tool is missing.

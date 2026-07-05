@@ -1,13 +1,13 @@
 ---
 name: scraper-audit-expert
-description: Use when auditing an existing scraper — Apify Actor or standalone (Express/PM2, FastAPI, cron, etc.) — to surface coverage gaps, data-quality issues, consistency bugs, resilience holes, performance/cost waste, observability gaps, and architectural debt. Triggers on "audit this scraper", "review my scraper", "what's wrong with X", "why does scraper Y fail", "is this scraper extracting all available data", "what's the data quality", "find bugs in scraper", schema drift detection, selector rot diagnosis, scrape cost-per-record analysis, success-rate diagnosis. Distinct from PPE/pricing audits (cross-referenced, not duplicated), scraping doctrine for fixes, and scraper/MCP build skills (build, not audit). Produces a structured audit report with severity-classified findings and prioritized fixes.
+description: Use when auditing an existing scraper - Apify Actor or standalone (Express/PM2, FastAPI, cron, etc.) - to surface coverage gaps, data-quality issues, consistency bugs, resilience holes, performance/cost waste, observability gaps, and architectural debt. Triggers on "audit this scraper", "review my scraper", "what's wrong with X", "why does scraper Y fail", "is this scraper extracting all available data", "what's the data quality", "find bugs in scraper", schema drift detection, selector rot diagnosis, scrape cost-per-record analysis, success-rate diagnosis. Distinct from PPE/pricing audits (cross-referenced, not duplicated), scraping doctrine for fixes, and scraper/MCP build skills (build, not audit). Produces a structured audit report with severity-classified findings and prioritized fixes.
 ---
 
 # Scraper Audit Expert
 
-Senior-level audit of an existing scraper to identify what's wrong, what's missing, and what could be optimized. The output is a structured report (executive summary + scorecard + prioritized findings + fixes) — not a stream of "consider X".
+Senior-level audit of an existing scraper to identify what's wrong, what's missing, and what could be optimized. The output is a structured report (executive summary + scorecard + prioritized findings + fixes) - not a stream of "consider X".
 
-This skill is opinionated about two things: **(1) all dimensions matter equally until proven otherwise** — don't skip coverage because "the data looks fine", don't skip observability because "it works". **(2) findings without quantified impact are noise** — every 🔴 finding must include "% of records affected" or "$ at risk" or "users blocked".
+This skill is opinionated about two things: **(1) all dimensions matter equally until proven otherwise** - don't skip coverage because "the data looks fine", don't skip observability because "it works". **(2) findings without quantified impact are noise** - every 🔴 finding must include "% of records affected" or "$ at risk" or "users blocked".
 
 ## When to use
 
@@ -20,10 +20,10 @@ This skill is opinionated about two things: **(1) all dimensions matter equally 
 
 ## When NOT to use
 
-- Scraper is **fully broken** (success rate < 30%) — that's triage, not audit. Fix the obvious failure first, audit after.
-- Scraper is **being designed** (not yet implemented) — use a scraper/MCP build skill for build doctrine.
-- Question is **purely about pricing/monetization** — use a dedicated PPE/pricing audit framework directly.
-- Question is **purely about anti-bot** ("how do I get past Cloudflare?") — use an anti-bot strategies reference directly.
+- Scraper is **fully broken** (success rate < 30%) - that's triage, not audit. Fix the obvious failure first, audit after.
+- Scraper is **being designed** (not yet implemented) - use a scraper/MCP build skill for build doctrine.
+- Question is **purely about pricing/monetization** - use a dedicated PPE/pricing audit framework directly.
+- Question is **purely about anti-bot** ("how do I get past Cloudflare?") - use an anti-bot strategies reference directly.
 
 ## Two runtimes the audit must distinguish
 
@@ -47,7 +47,7 @@ The audit framework is **runtime-agnostic at the dimension level**; the **gather
 | 5 | **Performance & Cost** | Throughput, latency p50/p95/p99, $/successful-record, cache hit rate, concurrency tuning. |
 | 6 | **Observability** | Logs structured? Metrics emitted? Alerting on degradation? Can a single failed record be debugged? |
 | 7 | **Architecture** | Code organization, testability, type safety, fixture coverage, secrets hygiene. |
-| 8 | **Monetization** *(Apify only)* | **Delegate to a dedicated PPE/pricing audit framework** — do not re-audit here. |
+| 8 | **Monetization** *(Apify only)* | **Delegate to a dedicated PPE/pricing audit framework** - do not re-audit here. |
 
 Full per-dimension checklist with concrete commands: **`references/audit-framework.md`**.
 
@@ -56,17 +56,17 @@ Full per-dimension checklist with concrete commands: **`references/audit-framewo
 Two-axis classification + numeric severity.
 
 **Severity (1–5):**
-- **5 🔴 Critical** — data loss, billing error, security/PII leak, scraper materially broken (>30% of records affected or business-critical field wrong).
-- **4 🔴 Critical** — silent quality issue affecting >10% of records, OR latent bug that becomes critical at scale.
-- **3 🟡 Important** — quality issue <10%, latent reliability risk, observability gap that blinds operators.
-- **2 🟡 Important** — inefficiency, tech debt, missed optimization with measurable cost.
-- **1 🟢 Nice-to-have** — style, naming, documentation polish.
+- **5 🔴 Critical** - data loss, billing error, security/PII leak, scraper materially broken (>30% of records affected or business-critical field wrong).
+- **4 🔴 Critical** - silent quality issue affecting >10% of records, OR latent bug that becomes critical at scale.
+- **3 🟡 Important** - quality issue <10%, latent reliability risk, observability gap that blinds operators.
+- **2 🟡 Important** - inefficiency, tech debt, missed optimization with measurable cost.
+- **1 🟢 Nice-to-have** - style, naming, documentation polish.
 
 **Effort (S/M/L):** S = <1 day, M = 1-5 days, L = >5 days / architectural change.
 
-**Category tag** — one of: `coverage`, `quality`, `consistency`, `resilience`, `perf`, `cost`, `obs`, `arch`, `monetization`, `compliance`.
+**Category tag** - one of: `coverage`, `quality`, `consistency`, `resilience`, `perf`, `cost`, `obs`, `arch`, `monetization`, `compliance`.
 
-**Finding format:** `[SEV-N][Effort][category] Title`. Example: `[SEV-4][S][quality] Currency parsing fails for GBP — 12% of UK records affected`.
+**Finding format:** `[SEV-N][Effort][category] Title`. Example: `[SEV-4][S][quality] Currency parsing fails for GBP - 12% of UK records affected`.
 
 **Prioritization:**
 1. Anything **SEV-5** to the top regardless of effort.
@@ -78,12 +78,12 @@ Two-axis classification + numeric severity.
 
 Five phases. Skip a phase = audit drifts into a hot-take.
 
-### Phase 1 — Gather artifacts (no code analysis yet)
+### Phase 1 - Gather artifacts (no code analysis yet)
 
 Determine the runtime, then gather:
 
 **Common to both runtimes:**
-- Full source tree (read-only — fixtures + extractor + routes + main entry point + types/schemas)
+- Full source tree (read-only - fixtures + extractor + routes + main entry point + types/schemas)
 - `package.json` / `requirements.txt` for dependency health
 - `README.md` and any project/session notes
 - Sample output: **≥ 1,000 records** for statistical signal, **≥ 10,000** preferred
@@ -124,7 +124,7 @@ curl -s http://localhost:<port>/api/admin/scrape-stats | jq .
 
 Full artifact catalog: `references/audit-framework.md` § "Phase 1 artifacts".
 
-### Phase 2 — Walk the 8 dimensions
+### Phase 2 - Walk the 8 dimensions
 
 In order: Coverage → Quality → Consistency → Resilience → Performance & Cost → Observability → Architecture → (Monetization, Apify only).
 
@@ -132,7 +132,7 @@ The order matters: **you cannot measure quality on a field you didn't know exist
 
 For each dimension, walk the checklist in `references/audit-framework.md` and tag findings.
 
-### Phase 3 — Quantify every 🔴 finding
+### Phase 3 - Quantify every 🔴 finding
 
 For each Critical or Important finding:
 - **Apify:** look at `apify runs ls` last 30d, compute % of runs/items affected, multiply by event price for revenue impact
@@ -141,45 +141,45 @@ For each Critical or Important finding:
 
 **Never fake a number.** "~12% of records" with a query attached >> "many records".
 
-### Phase 4 — Sequence the fixes
+### Phase 4 - Sequence the fixes
 
 Three constraints to respect:
-1. **Apify 14-day rule** — price increases / event additions take 14 days; only ONE major change per Actor per month. See a PPE/pricing audit framework for the full doctrine.
-2. **Coverage before quality fixes** — adding a missing field shouldn't conflict with re-extracting an existing one.
-3. **Observability before optimization** — never recommend a perf optimization that you can't measure after the fact. Fix obs gaps first if blind.
+1. **Apify 14-day rule** - price increases / event additions take 14 days; only ONE major change per Actor per month. See a PPE/pricing audit framework for the full doctrine.
+2. **Coverage before quality fixes** - adding a missing field shouldn't conflict with re-extracting an existing one.
+3. **Observability before optimization** - never recommend a perf optimization that you can't measure after the fact. Fix obs gaps first if blind.
 
 Output two lists at the end of the report:
-- **Quick wins** (SEV 3-4, effort S) — "fix this week"
-- **Strategic** (SEV ≥ 3, effort M/L) — "fix this quarter"
+- **Quick wins** (SEV 3-4, effort S) - "fix this week"
+- **Strategic** (SEV ≥ 3, effort M/L) - "fix this quarter"
 
-### Phase 5 — Deliver the audit report
+### Phase 5 - Deliver the audit report
 
 Use the template in **`references/audit-report-template.md`**. Length discipline: **8–15 pages total**. If you have > 20 findings, cut to top 20 and link the rest in an appendix.
 
 ## The audit deliverable structure
 
 ```
-1. Executive summary (½ page) — top findings, overall health (color), effort-to-impact summary
-2. Methodology & scope (½ page) — what was looked at, what wasn't, sample sizes, time windows
-3. Snapshot table — runs, items, success rate, current state per Actor / per cron job
-4. Findings 🔴 Critical — full Diagnostic / Impact / Fix blocks (cross-ref the relevant doctrine for deep fixes)
-5. Findings 🟡 Important — same structure, condensed
-6. Findings 🟢 Nice-to-have — bullet list
-7. Dimension scorecard — 8 dimensions × 5-point scale + one-paragraph justification per dim
-8. Quick wins list — sorted SEV/effort, the "fix this week" punch list
-9. Strategic recommendations — the "fix this quarter" list
-10. Open questions / Needs more data — non-negotiable section, never skip
-11. Appendix — raw queries used, sample bad records, null-rate tables
+1. Executive summary (½ page) - top findings, overall health (color), effort-to-impact summary
+2. Methodology & scope (½ page) - what was looked at, what wasn't, sample sizes, time windows
+3. Snapshot table - runs, items, success rate, current state per Actor / per cron job
+4. Findings 🔴 Critical - full Diagnostic / Impact / Fix blocks (cross-ref the relevant doctrine for deep fixes)
+5. Findings 🟡 Important - same structure, condensed
+6. Findings 🟢 Nice-to-have - bullet list
+7. Dimension scorecard - 8 dimensions × 5-point scale + one-paragraph justification per dim
+8. Quick wins list - sorted SEV/effort, the "fix this week" punch list
+9. Strategic recommendations - the "fix this quarter" list
+10. Open questions / Needs more data - non-negotiable section, never skip
+11. Appendix - raw queries used, sample bad records, null-rate tables
 ```
 
 Tone rules:
 - **Direct, technical, no hedging on facts** but **explicit hedging on inferences**. "Field X has 12% null rate" (fact) vs. "this likely costs ~$Y/month" (inference, labeled).
-- **No blame language** — findings are about the system, not the engineer who wrote it.
-- **Propose, don't prescribe** — recommended direction (1-3 sentences), not a PR. Exception: trivial one-liner fixes go inline.
+- **No blame language** - findings are about the system, not the engineer who wrote it.
+- **Propose, don't prescribe** - recommended direction (1-3 sentences), not a PR. Exception: trivial one-liner fixes go inline.
 
 ## Cross-references for fixes
 
-The audit **identifies** problems and **cross-references** the right doctrine for the fix. Do not duplicate fix recipes in the audit report — link to the doctrine.
+The audit **identifies** problems and **cross-references** the right doctrine for the fix. Do not duplicate fix recipes in the audit report - link to the doctrine.
 
 | Finding category | Where the fix doctrine lives |
 |---|---|
@@ -194,21 +194,21 @@ The audit **identifies** problems and **cross-references** the right doctrine fo
 | Hidden API not used (HTML scraping when JSON exists) | Your hidden-APIs doctrine |
 | Managed-API choice (one provider vs. another) | Your managed-APIs comparison doctrine |
 
-## Coverage discovery — the hardest dimension
+## Coverage discovery - the hardest dimension
 
 This is where most audits fail: identifying **what the scraper could be extracting but isn't**. Most auditors only audit what's there. Full systematic methodology in **`references/coverage-methodology.md`**. Five-step process:
 
-1. **Source field inventory** — Manual catalog of every visible field on 10–20 representative target pages, including JSON-LD/microdata (often richer than visible DOM).
-2. **Hidden-API probe** — Open DevTools Network, filter to XHR/Fetch. If a `/api/...` endpoint returns JSON with more fields, **the entire scraping strategy is suspect**. See your hidden-APIs doctrine.
-3. **Managed-API raw diff** *(applies when a managed API like ZenRows/Firecrawl/ScrapFly is in the pipeline)* — log the raw response before transformation. Diff against what the persisted record contains. Fields dropped between raw and persisted are often un-extracted by oversight.
-4. **Schema.org probe** — `grep -oE 'itemprop="[^"]+"' <fixture.html> | sort -u` on a representative fixture. Every `itemprop` is a candidate field.
-5. **Long-tail probe** — coverage works for popular records and breaks on edges. Specifically test: out-of-stock, product variants, items without a current price, non-USD currencies, non-ASCII names.
+1. **Source field inventory** - Manual catalog of every visible field on 10–20 representative target pages, including JSON-LD/microdata (often richer than visible DOM).
+2. **Hidden-API probe** - Open DevTools Network, filter to XHR/Fetch. If a `/api/...` endpoint returns JSON with more fields, **the entire scraping strategy is suspect**. See your hidden-APIs doctrine.
+3. **Managed-API raw diff** *(applies when a managed API like ZenRows/Firecrawl/ScrapFly is in the pipeline)* - log the raw response before transformation. Diff against what the persisted record contains. Fields dropped between raw and persisted are often un-extracted by oversight.
+4. **Schema.org probe** - `grep -oE 'itemprop="[^"]+"' <fixture.html> | sort -u` on a representative fixture. Every `itemprop` is a candidate field.
+5. **Long-tail probe** - coverage works for popular records and breaks on edges. Specifically test: out-of-stock, product variants, items without a current price, non-USD currencies, non-ASCII names.
 
 Coverage findings get prefixed with `[coverage]` and graded by:
 - **Impact:** value of the field × % of records where it's extractable
 - **Effort:** is it one new selector or a parser rewrite?
 
-## Latent bug discovery — systematic patterns
+## Latent bug discovery - systematic patterns
 
 The other dimension where baseline auditors rely on intuition. Full pattern catalog in **`references/latent-bug-patterns.md`**. Top 10 to grep for:
 
@@ -217,7 +217,7 @@ The other dimension where baseline auditors rely on intuition. Full pattern cata
 | Empty catch | `catch\s*\{\s*\}` or `catch\s*\([^)]*\)\s*\{\s*\}` | Silent swallow |
 | Optional chain on parsed data | `data\?\.\w+\?\.` | `??` makes bad data look good |
 | `\|\| null` / `\|\| 0` defaults | `\|\|\s*(null\|0\|''\|""\|\[\])` | Hides extraction failures |
-| `Promise.all` over agent calls | `Promise\.all\(\[.*runAgent` | One failure kills the batch — use `allSettled` |
+| `Promise.all` over agent calls | `Promise\.all\(\[.*runAgent` | One failure kills the batch - use `allSettled` |
 | `Actor.fail` for business errors | `Actor\.fail\(` outside infra-error path | Tanks success rate |
 | Hardcoded selectors no fallback | `\$\(['"][^,'"]+['"]\)` (no comma) | Brittle against A/B tests |
 | Hardcoded URLs | `https?://[^/]+/.+` in source | Configuration drift |
@@ -244,15 +244,15 @@ Each grep produces candidate findings; the auditor confirms by reading context. 
 
 ## Reference files in this skill
 
-- `references/audit-framework.md` — Full 8-dimension checklist with commands, jq queries, SQL templates, severity criteria per dimension
-- `references/coverage-methodology.md` — Five-step systematic coverage analysis (manual + tooling)
-- `references/quality-and-consistency-tests.md` — Concrete tests for null rates, schema drift, dedup correctness, cross-source agreement
-- `references/latent-bug-patterns.md` — 30+ grep patterns + why each is a bug + how to confirm
-- `references/audit-report-template.md` — Full markdown template the auditor fills in
+- `references/audit-framework.md` - Full 8-dimension checklist with commands, jq queries, SQL templates, severity criteria per dimension
+- `references/coverage-methodology.md` - Five-step systematic coverage analysis (manual + tooling)
+- `references/quality-and-consistency-tests.md` - Concrete tests for null rates, schema drift, dedup correctness, cross-source agreement
+- `references/latent-bug-patterns.md` - 30+ grep patterns + why each is a bug + how to confirm
+- `references/audit-report-template.md` - Full markdown template the auditor fills in
 
 ## What this skill is not
 
-- **Not a replacement for a PPE/pricing audit** — the PPE audit is not duplicated here. Cross-reference for monetization findings.
-- **Not a build skill** — for "how do I build a scraper", use a scraper-build skill. This skill audits existing code.
-- **Not an anti-bot recipe** — for "how do I bypass Cloudflare", use an anti-bot strategies reference. This skill identifies anti-bot mis-configuration; the doctrine above fixes it.
-- **Not a generic code-review skill** — focused on scraper-specific failure modes (selector rot, schema drift, anti-bot escalation, charge correctness). For general code quality, use a standard code-review skill.
+- **Not a replacement for a PPE/pricing audit** - the PPE audit is not duplicated here. Cross-reference for monetization findings.
+- **Not a build skill** - for "how do I build a scraper", use a scraper-build skill. This skill audits existing code.
+- **Not an anti-bot recipe** - for "how do I bypass Cloudflare", use an anti-bot strategies reference. This skill identifies anti-bot mis-configuration; the doctrine above fixes it.
+- **Not a generic code-review skill** - focused on scraper-specific failure modes (selector rot, schema drift, anti-bot escalation, charge correctness). For general code quality, use a standard code-review skill.
